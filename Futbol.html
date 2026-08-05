@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Material Didáctico · Deporte Adaptado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root{
+  --bg:#0A0A0F; --surface:#13131B; --surface2:#1C1C28;
+  --border:#26263A; --lime:#CEFF00; --lime-dim:rgba(206,255,0,.12);
+  --pink:#FF3060; --blue:#00B4FF; --text:#F2F2F7; --muted:#5C5C7A;
+  --sidebar-w:280px; --header-h:64px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html,body{
+  height:100%;
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+}
+
+/* ── LANGUAGE VISIBILITY ─────────────────────────────────── */
+html[lang="es"] .en { display:none !important; }
+html[lang="en"] .es { display:none !important; }
+
+/* ── TOPBAR ─────────────────────────────────────────────── */
+.topbar{
+  position:fixed; top:0; left:0; right:0;
+  height:var(--header-h);
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 28px; z-index:100;
+}
+.topbar-brand{ display:flex; align-items:center; gap:14px; }
+.topbar-dot{
+  width:10px; height:10px; border-radius:50%;
+  background:var(--lime); box-shadow:0 0 10px var(--lime); flex-shrink:0;
+}
+.topbar-title{ font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1rem; }
+.topbar-sub{ font-size:.75rem; color:var(--muted); margin-top:1px; }
+
+.topbar-right{ display:flex; align-items:center; gap:20px; }
+
+/* Language toggle pill */
+.lang-toggle{
+  display:flex; align-items:center;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:99px; overflow:hidden; flex-shrink:0;
+}
+.lang-btn{
+  padding:6px 14px; font-family:'Space Grotesk',sans-serif;
+  font-weight:600; font-size:.75rem; letter-spacing:.5px;
+  border:none; background:transparent; color:var(--muted);
+  cursor:pointer; transition:all .2s;
+}
+.lang-btn.active{
+  background:var(--lime); color:#000; border-radius:99px;
+}
+
+.topbar-progress{ display:flex; align-items:center; gap:12px; font-size:.8rem; color:var(--muted); }
+.progress-bar{ width:120px; height:3px; background:var(--border); border-radius:99px; overflow:hidden; }
+.progress-fill{ height:100%; background:var(--lime); border-radius:99px; transition:width .4s ease; }
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+.layout{
+  display:grid; grid-template-columns:var(--sidebar-w) 1fr;
+  height:100%; padding-top:var(--header-h);
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.sidebar{
+  background:var(--surface); border-right:1px solid var(--border);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.sidebar-header{ padding:22px 22px 14px; border-bottom:1px solid var(--border); flex-shrink:0; }
+.sidebar-label{
+  font-size:.65rem; text-transform:uppercase; letter-spacing:2px;
+  color:var(--muted); font-family:'Space Grotesk',sans-serif; font-weight:600;
+}
+.sidebar-heading{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.1rem; margin-top:4px; }
+.module-list{ list-style:none; overflow-y:auto; flex:1; padding:12px 0; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+.module-item{
+  display:flex; align-items:center; gap:14px; padding:13px 22px;
+  cursor:pointer; transition:background .2s; position:relative;
+}
+.module-item:hover{ background:var(--lime-dim); }
+.module-item.active{ background:var(--lime-dim); }
+.module-item.active::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:var(--lime); border-radius:0 3px 3px 0;
+}
+.module-num{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.75rem; color:var(--muted); width:22px; flex-shrink:0; transition:color .2s; }
+.module-item.active .module-num, .module-item:hover .module-num{ color:var(--lime); }
+.module-meta{ flex:1; min-width:0; }
+.module-name{ font-size:.88rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:color .2s; }
+.module-item.active .module-name{ color:var(--lime); font-weight:600; }
+.module-tag{ font-size:.68rem; color:var(--muted); margin-top:1px; }
+.module-check{
+  width:18px; height:18px; border-radius:50%; border:1.5px solid var(--border);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:.6rem; transition:all .2s;
+}
+.module-item.done .module-check{ background:var(--lime); border-color:var(--lime); color:#000; }
+.sidebar-footer{ padding:16px 22px; border-top:1px solid var(--border); flex-shrink:0; }
+.btn-reset{
+  width:100%; padding:10px; background:transparent; border:1px solid var(--border);
+  border-radius:8px; color:var(--muted); font-family:'DM Sans',sans-serif; font-size:.82rem; cursor:pointer; transition:all .2s;
+}
+.btn-reset:hover{ border-color:var(--pink); color:var(--pink); }
+
+/* ── CONTENT AREA ────────────────────────────────────────── */
+.content-area{ position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.deco-number{
+  position:absolute; bottom:-60px; right:-20px;
+  font-family:'Space Grotesk',sans-serif; font-weight:700;
+  font-size:28vw; line-height:1; color:rgba(255,255,255,.025);
+  pointer-events:none; user-select:none; z-index:0;
+}
+.module-panel{
+  display:none; flex-direction:column; flex:1;
+  overflow-y:auto; padding:48px 56px; position:relative; z-index:1;
+  scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+  opacity:0; transition:opacity .35s ease;
+}
+.module-panel.visible{ display:flex; }
+.module-panel.fade-in{ opacity:1; }
+
+/* ── Panel internals ─────────────────────────────────────── */
+.panel-eyebrow{
+  display:flex; align-items:center; gap:10px;
+  font-size:.72rem; text-transform:uppercase; letter-spacing:2px;
+  color:var(--muted); font-family:'Space Grotesk',sans-serif; font-weight:600; margin-bottom:14px;
+}
+.panel-eyebrow-line{ display:inline-block; width:32px; height:2px; background:var(--lime); border-radius:1px; }
+.panel-title{
+  font-family:'Space Grotesk',sans-serif; font-weight:700;
+  font-size:clamp(2rem,4vw,3.2rem); line-height:1.1;
+  letter-spacing:-.5px; max-width:680px; margin-bottom:8px;
+}
+.panel-title span{ color:var(--lime); }
+.panel-subtitle{ font-size:1rem; color:var(--muted); max-width:580px; line-height:1.55; margin-bottom:36px; }
+.content-body{ display:flex; flex-direction:column; gap:28px; max-width:720px; }
+.text-block p{ font-size:.97rem; line-height:1.75; color:rgba(242,242,247,.85); }
+.highlight-block{
+  border-left:3px solid var(--lime); background:var(--lime-dim);
+  border-radius:0 10px 10px 0; padding:16px 20px; font-size:.95rem; line-height:1.7;
+}
+.highlight-block strong{ color:var(--lime); font-weight:600; }
+.facts-strip{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+.fact-card{ background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:18px 16px; }
+.fact-value{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.8rem; color:var(--lime); line-height:1; }
+.fact-label{ font-size:.78rem; color:var(--muted); margin-top:4px; }
+.media-block{
+  border-radius:14px; overflow:hidden; background:var(--surface2); border:1px solid var(--border);
+  aspect-ratio:16/9; display:flex; align-items:center; justify-content:center;
+  font-size:.85rem; color:var(--muted); position:relative;
+}
+.media-block img, .media-block video{ width:100%; height:100%; object-fit:cover; display:block; }
+.media-placeholder-icon{ display:flex; flex-direction:column; align-items:center; gap:8px; }
+.media-placeholder-icon svg{ opacity:.3; }
+.tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.tag{ background:var(--surface2); border:1px solid var(--border); border-radius:99px; padding:5px 14px; font-size:.75rem; color:var(--muted); font-weight:500; }
+.panel-nav{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:auto; padding-top:40px; border-top:1px solid var(--border); max-width:720px;
+}
+.btn-nav{
+  display:flex; align-items:center; gap:10px; background:transparent;
+  border:1px solid var(--border); border-radius:10px; color:var(--text);
+  font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:500;
+  padding:12px 20px; cursor:pointer; transition:all .2s;
+}
+.btn-nav:hover{ border-color:var(--lime); color:var(--lime); }
+.btn-nav-primary{ background:var(--lime); border-color:var(--lime); color:#000; font-weight:600; }
+.btn-nav-primary:hover{ background:#b8e600; border-color:#b8e600; color:#000; }
+.btn-nav:disabled{ opacity:.3; pointer-events:none; }
+
+/* ── WELCOME SCREEN ──────────────────────────────────────── */
+.welcome-screen{
+  flex:1; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:24px; text-align:center; padding:40px;
+  position:relative; z-index:1;
+}
+.welcome-icon{
+  width:72px; height:72px; border-radius:50%;
+  background:var(--lime-dim); border:1px solid rgba(206,255,0,.25);
+  display:flex; align-items:center; justify-content:center; font-size:2rem;
+}
+.welcome-heading{ font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:2rem; letter-spacing:-.5px; }
+.welcome-heading span{ color:var(--lime); }
+.welcome-body{ font-size:.97rem; color:var(--muted); max-width:380px; line-height:1.6; }
+.btn-start{
+  padding:14px 32px; background:var(--lime); border:none; border-radius:12px;
+  color:#000; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:.95rem;
+  cursor:pointer; transition:transform .2s, box-shadow .2s;
+}
+.btn-start:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(206,255,0,.25); }
+
+
+/* ── FLIP CARDS: MÓDULO LA PELOTA ─────────────────────── */
+.flip-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(230px,1fr));
+  gap:20px;
+  width:100%;
+}
+.flip-card{
+  min-height:330px;
+  perspective:1200px;
+  cursor:pointer;
+  border:0;
+  background:transparent;
+  color:inherit;
+  text-align:left;
+  font:inherit;
+}
+.flip-card-inner{
+  display:block;
+  position:relative;
+  width:100%;
+  min-height:330px;
+  transform-style:preserve-3d;
+  transition:transform .75s cubic-bezier(.2,.8,.2,1);
+}
+.flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+.flip-card-front,.flip-card-back{
+  position:absolute;
+  inset:0;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  border-radius:18px;
+  border:1px solid var(--border);
+  overflow:hidden;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+}
+.flip-card-front{
+  justify-content:space-between;
+  background:linear-gradient(145deg,var(--surface2),var(--surface));
+}
+.flip-card-back{
+  transform:rotateY(180deg);
+  background:var(--surface2);
+  justify-content:center;
+}
+.flip-card:hover .flip-card-front,
+.flip-card:focus-visible .flip-card-front{ border-color:var(--lime); }
+.flip-card:focus-visible{ outline:3px solid var(--lime); outline-offset:4px; border-radius:18px; }
+.flip-card-icon{
+  width:86px; height:86px; border-radius:50%;
+  display:grid; place-items:center;
+  background:var(--lime-dim); border:1px solid rgba(206,255,0,.3);
+  font-size:2.8rem;
+}
+.flip-card-number{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:.7rem; letter-spacing:2px; color:var(--muted);
+}
+.flip-card-title{
+  display:block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.35rem; font-weight:700; margin-top:18px;
+}
+.flip-card-hint{ display:block; color:var(--lime); font-size:.78rem; margin-top:8px; }
+.flip-card-back h3{
+  font-family:'Space Grotesk',sans-serif;
+  color:var(--lime); font-size:1.2rem; margin-bottom:14px;
+}
+.flip-card-back p{ color:rgba(242,242,247,.84); line-height:1.65; font-size:.93rem; }
+.flip-card-back ul{ padding-left:18px; color:rgba(242,242,247,.84); line-height:1.65; font-size:.9rem; }
+.flip-card-back li+li{ margin-top:7px; }
+.flip-instruction{ color:var(--muted); font-size:.85rem; margin-bottom:16px; }
+@media(max-width:680px){
+  .flip-grid{ grid-template-columns:1fr; }
+  .flip-card,.flip-card-inner{ min-height:300px; }
+}
+@media(prefers-reduced-motion:reduce){ .flip-card-inner{ transition:none; } }
+
+/* ── VOICE NARRATION ───────────────────────────────────── */
+.voice-toggle{
+  display:flex; align-items:center; gap:8px;
+  padding:7px 13px; border:1px solid var(--border); border-radius:99px;
+  background:var(--surface2); color:var(--text);
+  font-family:'DM Sans',sans-serif; font-size:.76rem; font-weight:600;
+  cursor:pointer; transition:border-color .2s,color .2s,background .2s;
+}
+.voice-toggle:hover,.voice-toggle:focus-visible{ border-color:var(--lime); color:var(--lime); }
+.voice-toggle[aria-pressed="false"]{ color:var(--muted); }
+.voice-status{ width:8px; height:8px; border-radius:50%; background:var(--lime); box-shadow:0 0 8px var(--lime); }
+.voice-toggle[aria-pressed="false"] .voice-status{ background:var(--muted); box-shadow:none; }
+@media(max-width:560px){ .voice-toggle-text{ display:none; } .voice-toggle{ padding:8px 10px; } }
+
+/* ── MOBILE ──────────────────────────────────────────────── */
+@media(max-width:780px){
+  html,body{ overflow:auto; }
+  .layout{ grid-template-columns:1fr; grid-template-rows:auto 1fr; height:auto; }
+  .sidebar{ border-right:none; border-bottom:1px solid var(--border); max-height:260px; }
+  .module-panel{ padding:32px 24px; }
+  .deco-number{ font-size:45vw; }
+  .topbar-progress{ display:none; }
+  .panel-nav{ max-width:100%; }
+  .content-area{ overflow:auto; }
+}
+@media(prefers-reduced-motion:reduce){
+  .module-panel, .progress-fill, .btn-start{ transition:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-brand">
+    <span class="topbar-dot"></span>
+    <div>
+      <div class="topbar-title">
+        <span class="es">Deporte Adaptado</span>
+        <span class="en">Adapted Sport</span>
+      </div>
+      <div class="topbar-sub">
+        <span class="es">Material Didáctico</span>
+        <span class="en">Teaching Material</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <button class="voice-toggle" id="voiceToggle" type="button" aria-pressed="true" aria-label="Desactivar narración automática">
+      <span class="voice-status" aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span class="voice-toggle-text">
+        <span class="es">Voz activada</span>
+        <span class="en">Voice on</span>
+      </span>
+    </button>
+
+    <!-- Language toggle -->
+    <div class="lang-toggle" role="group" aria-label="Language / Idioma">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" aria-pressed="true">ES</button>
+      <button class="lang-btn"        id="btnEn" onclick="setLang('en')" aria-pressed="false">EN</button>
+    </div>
+
+    <!-- <div class="topbar-progress">
+      <span id="progressLabel">0 / 6</span>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div> -->
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-label">
+        <span class="es">Contenidos</span>
+        <span class="en">Contents</span>
+      </div>
+      <h2 class="sidebar-heading">
+        <span class="es">Módulos</span>
+        <span class="en">Modules</span>
+      </h2>
+    </div>
+    <ul class="module-list" id="moduleList"></ul>
+    <div class="sidebar-footer">
+      <!-- <button class="btn-reset" id="btnReset">
+        <span class="es">↺ Reiniciar progreso</span>
+        <span class="en">↺ Reset progress</span>
+      </button> -->
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content-area" id="contentArea">
+    <span class="deco-number" id="decoNumber"></span>
+
+    <!-- Welcome screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-icon"></div>
+      <h1 class="welcome-heading">
+        <span class="es">¡Bienvenido al material didáctico sobre <span>fútbol 5 adaptado</span>!</span>
+        <span class="en">Welcome to the teaching material about <span>Football 5-a-side</span>!</span>
+      </h1>
+      <p class="welcome-body">
+        <span class="es">Selecciona un tema en el panel izquierdo para empezar a explorar el material.</span>
+        <span class="en">Select a topic in the left panel to start exploring the material.</span>
+      </p>
+      <!-- <button class="btn-start" id="btnStart">
+        <span class="es">Empezar por el módulo 1 →</span>
+        <span class="en">Start with module 1 →</span>
+      </button> -->
+    </div>
+
+    <div id="panelContainer"></div>
+  </main>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────
+   CONTENT DATA — edit here
+   Each module has es:{} and en:{} with title, subtitle, tag, content
+   ───────────────────────────────────────────────────────── */
+const modules = [
+  {
+    id: 1,
+    color: "#CEFF00",
+    es: {
+      title: "La pelota",
+      subtitle: "Conoce las diferencias entre el balón convencional y el balón utilizado en fútbol 5 para personas ciegas.",
+      tag: "Introducción",
+      content: `
+        <p class="flip-instruction">Haz clic en cada tarjeta para voltearla y descubrir sus características.</p>
+        <div class="flip-grid">
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span>
+                  <span class="flip-card-number">TARJETA 01</span>
+                  <span class="flip-card-icon" aria-hidden="true"></span>
+                </span>
+                <span>
+                  <span class="flip-card-title">Balón convencional</span>
+                  <span class="flip-card-hint">Haz clic para voltear ↻</span>
+                </span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Balón de fútbol 5 convencional</h3>
+                <ul>
+                  <li>No contiene elementos sonoros en su interior.</li>
+                  <li>Los jugadores lo localizan principalmente mediante la vista.</li>
+                  <li>Se utiliza en modalidades convencionales de fútbol reducido.</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span>
+                  <span class="flip-card-number">TARJETA 02</span>
+                  <span class="flip-card-icon" aria-hidden="true"></span>
+                </span>
+                <span>
+                  <span class="flip-card-title">Balón de fútbol 5 para ciegos</span>
+                  <span class="flip-card-hint">Haz clic para voltear ↻</span>
+                </span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Balón sonoro</h3>
+                <ul>
+                  <li>Incluye cascabeles o un sistema sonoro en su interior.</li>
+                  <li>Permite que los jugadores identifiquen su posición y movimiento mediante el oído.</li>
+                  <li>El sonido debe mantenerse perceptible mientras el balón está en juego.</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+        </div>
+      `
+    },
+    en: {
+      title: "The ball",
+      subtitle: "Learn the differences between a conventional ball and the ball used in blind football.",
+      tag: "Introduction",
+      content: `
+        <p class="flip-instruction">Click each card to flip it and discover its features.</p>
+        <div class="flip-grid">
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span><span class="flip-card-number">CARD 01</span><span class="flip-card-icon" aria-hidden="true"></span></span>
+                <span><span class="flip-card-title">Conventional ball</span><span class="flip-card-hint">Click to flip ↻</span></span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Conventional 5-a-side ball</h3>
+                <ul><li>It has no sound-producing elements inside.</li><li>Players locate it mainly through sight.</li><li>It is used in conventional small-sided football.</li></ul>
+              </span>
+            </span>
+          </button>
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span><span class="flip-card-number">CARD 02</span><span class="flip-card-icon" aria-hidden="true"></span></span>
+                <span><span class="flip-card-title">Blind football ball</span><span class="flip-card-hint">Click to flip ↻</span></span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Audible ball</h3>
+                <ul><li>It contains bells or a sound system.</li><li>Players can track its position and movement by hearing.</li><li>The sound must remain audible while the ball is in play.</li></ul>
+              </span>
+            </span>
+          </button>
+        </div>
+      `
+    }
+  }
+];
+
+/* ─────────────────────────────────────────────────────────
+   STATE
+   ───────────────────────────────────────────────────────── */
+let current = null;
+let lang = 'es';
+const done = new Set();
+
+const list           = document.getElementById('moduleList');
+const panelContainer = document.getElementById('panelContainer');
+const decoNumber     = document.getElementById('decoNumber');
+const welcomeScreen  = document.getElementById('welcomeScreen');
+const progressFill   = document.getElementById('progressFill');
+const progressLabel  = document.getElementById('progressLabel');
+
+/* ─────────────────────────────────────────────────────────
+   BUILD DOM
+   ───────────────────────────────────────────────────────── */
+modules.forEach(mod => {
+  /* Sidebar item — both language strings in DOM */
+  const li = document.createElement('li');
+  li.className = 'module-item';
+  li.dataset.id = mod.id;
+  li.innerHTML = `
+    <span class="module-num">${String(mod.id).padStart(2,'0')}</span>
+    <div class="module-meta">
+      <div class="module-name">
+        <span class="es">${mod.es.title}</span>
+        <span class="en">${mod.en.title}</span>
+      </div>
+      <div class="module-tag">
+        <span class="es">${mod.es.tag}</span>
+        <span class="en">${mod.en.tag}</span>
+      </div>
+    </div>
+    <div class="module-check">✓</div>
+  `;
+  li.addEventListener('click', () => openModule(mod.id));
+  list.appendChild(li);
+
+  /* Panel — both language content blocks in DOM */
+  const prevId = mod.id - 1;
+  const nextId = mod.id + 1;
+  const hasPrev = prevId >= 1;
+  const hasNext = nextId <= modules.length;
+
+  const panel = document.createElement('div');
+  panel.className = 'module-panel';
+  panel.id = `panel-${mod.id}`;
+
+  panel.innerHTML = `
+    <div class="panel-eyebrow">
+      <span class="panel-eyebrow-line"></span>
+      <span class="es">Módulo ${String(mod.id).padStart(2,'0')} — ${mod.es.tag}</span>
+      <span class="en">Module ${String(mod.id).padStart(2,'0')} — ${mod.en.tag}</span>
+    </div>
+
+    <h2 class="panel-title">
+      <span class="es">${mod.es.title}</span>
+      <span class="en">${mod.en.title}</span>
+    </h2>
+    <p class="panel-subtitle">
+      <span class="es">${mod.es.subtitle}</span>
+      <span class="en">${mod.en.subtitle}</span>
+    </p>
+
+    <div class="content-body">
+      <div class="es">${mod.es.content}</div>
+      <div class="en">${mod.en.content}</div>
+    </div>
+
+    <div class="panel-nav">
+      <button class="btn-nav" ${!hasPrev ? 'disabled' : ''} onclick="openModule(${prevId})">
+        <span class="es">← Anterior</span>
+        <span class="en">← Previous</span>
+      </button>
+      <button class="btn-nav btn-nav-primary"
+        ${!hasNext ? 'style="background:var(--pink);border-color:var(--pink)"' : ''}
+        onclick="${hasNext ? `openModule(${nextId})` : 'finishAll()'}">
+        <span class="es">${hasNext ? 'Siguiente →' : ' Finalizar'}</span>
+        <span class="en">${hasNext ? 'Next →'      : ' Finish'  }</span>
+      </button>
+    </div>
+  `;
+  panelContainer.appendChild(panel);
+});
+
+/* Flip cards + accessible voice narration */
+const voiceToggle = document.getElementById('voiceToggle');
+let voiceEnabled = true;
+
+function stopNarration(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
+
+function getNarrationText(card){
+  const back = card.querySelector('.flip-card-back');
+  if(!back) return '';
+  return back.innerText.replace(/\s+/g, ' ').trim();
+}
+
+function speakCard(card){
+  if(!voiceEnabled || !('speechSynthesis' in window)) return;
+  const text = getNarrationText(card);
+  if(!text) return;
+
+  stopNarration();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang === 'es' ? 'es-MX' : 'en-US';
+  utterance.rate = 0.92;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.lang.toLowerCase().startsWith(lang === 'es' ? 'es-mx' : 'en-us'))
+    || voices.find(v => v.lang.toLowerCase().startsWith(lang));
+  if(preferred) utterance.voice = preferred;
+
+  window.speechSynthesis.speak(utterance);
+}
+
+panelContainer.addEventListener('click', (event) => {
+  const card = event.target.closest('.flip-card');
+  if(!card) return;
+
+  const isFlipped = card.classList.toggle('flipped');
+  card.setAttribute('aria-pressed', String(isFlipped));
+
+  if(isFlipped){
+    document.querySelectorAll('.flip-card.flipped').forEach(other => {
+      if(other !== card){
+        other.classList.remove('flipped');
+        other.setAttribute('aria-pressed','false');
+      }
+    });
+    window.setTimeout(() => speakCard(card), 450);
+  }else{
+    stopNarration();
+  }
+});
+
+voiceToggle?.addEventListener('click', () => {
+  voiceEnabled = !voiceEnabled;
+  voiceToggle.setAttribute('aria-pressed', String(voiceEnabled));
+  voiceToggle.setAttribute('aria-label', voiceEnabled
+    ? (lang === 'es' ? 'Desactivar narración automática' : 'Turn off automatic narration')
+    : (lang === 'es' ? 'Activar narración automática' : 'Turn on automatic narration'));
+  voiceToggle.querySelector('[aria-hidden="true"] + span').textContent = voiceEnabled ? '🔊' : '🔇';
+  const text = voiceToggle.querySelector('.voice-toggle-text');
+  if(text){
+    text.querySelector('.es').textContent = voiceEnabled ? 'Voz activada' : 'Voz desactivada';
+    text.querySelector('.en').textContent = voiceEnabled ? 'Voice on' : 'Voice off';
+  }
+  if(!voiceEnabled) stopNarration();
+});
+
+/* ─────────────────────────────────────────────────────────
+   LANGUAGE SWITCH
+   ───────────────────────────────────────────────────────── */
+function setLang(l){
+  stopNarration();
+  lang = l;
+  document.documentElement.lang = l;
+  document.getElementById('btnEs').classList.toggle('active', l === 'es');
+  document.getElementById('btnEn').classList.toggle('active', l === 'en');
+  document.getElementById('btnEs').setAttribute('aria-pressed', l === 'es');
+  document.getElementById('btnEn').setAttribute('aria-pressed', l === 'en');
+  if(voiceToggle){
+    voiceToggle.setAttribute('aria-label', voiceEnabled
+      ? (l === 'es' ? 'Desactivar narración automática' : 'Turn off automatic narration')
+      : (l === 'es' ? 'Activar narración automática' : 'Turn on automatic narration'));
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   OPEN MODULE
+   ───────────────────────────────────────────────────────── */
+function openModule(id){
+  stopNarration();
+  welcomeScreen.style.display = 'none';
+  if(current !== null) done.add(current);
+
+  document.querySelectorAll('.module-item').forEach(el => {
+    el.classList.remove('active');
+    if(done.has(Number(el.dataset.id))) el.classList.add('done');
+  });
+
+  const activeItem = document.querySelector(`.module-item[data-id="${id}"]`);
+  if(activeItem) activeItem.classList.add('active');
+
+  document.querySelectorAll('.module-panel').forEach(p => p.classList.remove('visible','fade-in'));
+
+  const panel = document.getElementById(`panel-${id}`);
+  if(panel){
+    panel.classList.add('visible');
+    requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add('fade-in')));
+    panel.scrollTop = 0;
+  }
+
+  decoNumber.textContent = String(id).padStart(2,'0');
+  current = id;
+  updateProgress();
+}
+
+/* ─────────────────────────────────────────────────────────
+   PROGRESS
+   ───────────────────────────────────────────────────────── */
+function updateProgress(){
+  const viewed = new Set(done);
+  if(current !== null) viewed.add(current);
+  const pct = Math.round((viewed.size / modules.length) * 100);
+  if(progressFill) progressFill.style.width = pct + '%';
+  if(progressLabel) progressLabel.textContent = `${viewed.size} / ${modules.length}`;
+}
+
+/* ─────────────────────────────────────────────────────────
+   FINISH / RESET
+   ───────────────────────────────────────────────────────── */
+function finishAll(){
+  modules.forEach(m => done.add(m.id));
+  document.querySelectorAll('.module-item').forEach(el => el.classList.add('done'));
+  updateProgress();
+  alert(lang === 'es' ? ' ¡Has completado todos los módulos!' : ' You have completed all modules!');
+}
+
+document.getElementById('btnReset')?.addEventListener('click', () => {
+  done.clear(); current = null;
+  document.querySelectorAll('.module-item').forEach(el => el.classList.remove('active','done'));
+  document.querySelectorAll('.module-panel').forEach(p => p.classList.remove('visible','fade-in'));
+  welcomeScreen.style.display = 'flex';
+  decoNumber.textContent = '';
+  if(progressFill) progressFill.style.width = '0%';
+  if(progressLabel) progressLabel.textContent = `0 / ${modules.length}`;
+});
+
+document.getElementById('btnStart')?.addEventListener('click', () => openModule(1));
+</script>
+</body>
+</html>

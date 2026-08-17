@@ -11,7 +11,7 @@
 /* ── TOKENS ─────────────────────────────────────────────── */
 :root{
   --bg:#0A0A0F; --surface:#13131B; --surface2:#1C1C28;
-  --border:#26263A; --lime:#00eeff; --lime-dim:rgba(206,255,0,.12);
+  --border:#26263A; --lime:#00eeff; --lime-dim:rgba(0, 255, 255, 0.12);
   --pink:#FF3060; --blue:#00B4FF; --text:#F2F2F7; --muted:#5C5C7A;
   --sidebar-w:280px; --header-h:64px;
 }
@@ -736,8 +736,8 @@ const modules = [
     color: "#CEFF00",
     es: {
       title: "El balón",
-      subtitle: "Conoce las diferencias entre el balón convencional y el balón utilizado en fútbol 5 para personas ciegas.",
-      tag: "Introducción",
+      subtitle: "Descubre las diferencias reglamentarias del balón entre el fútbol para ciegos y el futsal para baja visión.",
+      tag: "Características del balón",
       content: `
         <p class="flip-instruction">Haz clic en cada tarjeta para voltearla y descubrir sus características.</p>
         <div class="flip-grid">
@@ -749,17 +749,22 @@ const modules = [
                   <span class="flip-card-icon" aria-hidden="true"></span>
                 </span>
                 <span>
-                  <span class="flip-card-title">Balón convencional</span>
+                  <span class="flip-card-title">Circunferencia</span>
                   <span class="flip-card-hint">Haz clic para voltear ↻</span>
                 </span>
               </span>
               <span class="flip-card-back">
-                <h3>Balón de fútbol 5 convencional</h3>
-                <ul>
-                  <li>No contiene elementos sonoros en su interior.</li>
-                  <li>Los jugadores lo localizan principalmente mediante la vista.</li>
-                  <li>Se utiliza en modalidades convencionales de fútbol reducido.</li>
-                </ul>
+                <h3>Circunferencia</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Fútbol para ciegos (IBSA)</span>
+                    <p>Circunferencia entre 60 y 62 cm.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Futsal para baja visión (IBSA + FIFA)</span>
+                    <p>62 cm. *Circunferencia oficial entre 60 y 62 cm para el balón tamaño 5, y entre 50 y 52 cm para el tamaño 4 (el tamaño 4 es el usado en Futsal FIFA para adultos).</p>
+                  </div>
+                </div>
               </span>
             </span>
           </button>
@@ -772,17 +777,106 @@ const modules = [
                   <span class="flip-card-icon" aria-hidden="true"></span>
                 </span>
                 <span>
-                  <span class="flip-card-title">Balón de fútbol 5 para ciegos</span>
+                  <span class="flip-card-title">Peso</span>
                   <span class="flip-card-hint">Haz clic para voltear ↻</span>
                 </span>
               </span>
               <span class="flip-card-back">
-                <h3>Balón sonoro</h3>
-                <ul>
-                  <li>Incluye cascabeles o un sistema sonoro en su interior.</li>
-                  <li>Permite que los jugadores identifiquen su posición y movimiento mediante el oído.</li>
-                  <li>El sonido debe mantenerse perceptible mientras el balón está en juego.</li>
-                </ul>
+                <h3>Peso</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Fútbol para ciegos (IBSA)</span>
+                    <p>Peso entre 510 y 540 gramos al inicio del partido.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Futsal para baja visión (IBSA + FIFA)</span>
+                    <p>*Peso oficial de Futsal FIFA entre 400 y 440 gramos.</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span>
+                  <span class="flip-card-number">TARJETA 03</span>
+                  <span class="flip-card-icon" aria-hidden="true"></span>
+                </span>
+                <span>
+                  <span class="flip-card-title">Presión</span>
+                  <span class="flip-card-hint">Haz clic para voltear ↻</span>
+                </span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Presión</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Fútbol para ciegos (IBSA)</span>
+                    <p>Presión de 0,4 a 0,6 atmósferas al nivel del mar.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Futsal para baja visión (IBSA + FIFA)</span>
+                    <p>*Presión similar, alrededor de 0,4 a 0,6 bar, según estándares de Futsal FIFA.</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span>
+                  <span class="flip-card-number">TARJETA 04</span>
+                  <span class="flip-card-icon" aria-hidden="true"></span>
+                </span>
+                <span>
+                  <span class="flip-card-title">Sistema sonoro</span>
+                  <span class="flip-card-hint">Haz clic para voltear ↻</span>
+                </span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Sistema sonoro</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Fútbol para ciegos (IBSA)</span>
+                    <p>Lleva sistema sonoro interno obligatorio (sonaja) para que suene al rodar, botar o girar.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Futsal para baja visión (IBSA + FIFA)</span>
+                    <p>No exige sistema sonoro (los jugadores tienen resto visual).</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span>
+                  <span class="flip-card-number">TARJETA 05</span>
+                  <span class="flip-card-icon" aria-hidden="true"></span>
+                </span>
+                <span>
+                  <span class="flip-card-title">Color</span>
+                  <span class="flip-card-hint">Haz clic para voltear ↻</span>
+                </span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Color</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Fútbol para ciegos (IBSA)</span>
+                    <p>El documento no exige un color de contraste específico.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Futsal para baja visión (IBSA + FIFA)</span>
+                    <p>Puede ser de un color que contraste claramente con el campo y las líneas.</p>
+                  </div>
+                </div>
               </span>
             </span>
           </button>
@@ -791,8 +885,8 @@ const modules = [
     },
     en: {
       title: "The ball",
-      subtitle: "Learn the differences between a conventional ball and the ball used in blind football.",
-      tag: "Introduction",
+      subtitle: "Discover the rule differences of the ball between blind football and low-vision futsal.",
+      tag: "Ball characteristics",
       content: `
         <p class="flip-instruction">Click each card to flip it and discover its features.</p>
         <div class="flip-grid">
@@ -800,23 +894,108 @@ const modules = [
             <span class="flip-card-inner">
               <span class="flip-card-front">
                 <span><span class="flip-card-number">CARD 01</span><span class="flip-card-icon" aria-hidden="true"></span></span>
-                <span><span class="flip-card-title">Conventional ball</span><span class="flip-card-hint">Click to flip ↻</span></span>
+                <span><span class="flip-card-title">Circumference</span><span class="flip-card-hint">Click to flip ↻</span></span>
               </span>
               <span class="flip-card-back">
-                <h3>Conventional 5-a-side ball</h3>
-                <ul><li>It has no sound-producing elements inside.</li><li>Players locate it mainly through sight.</li><li>It is used in conventional small-sided football.</li></ul>
+                <h3>Circumference</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Blind football (IBSA)</span>
+                    <p>Circumference between 60 and 62 cm.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Low-vision futsal (IBSA + FIFA)</span>
+                    <p>62 cm. *Official circumference between 60 and 62 cm for a size 5 ball, and between 50 and 52 cm for size 4 (size 4 is the one used in adult FIFA Futsal).</p>
+                  </div>
+                </div>
               </span>
             </span>
           </button>
+
           <button class="flip-card" type="button" aria-pressed="false">
             <span class="flip-card-inner">
               <span class="flip-card-front">
                 <span><span class="flip-card-number">CARD 02</span><span class="flip-card-icon" aria-hidden="true"></span></span>
-                <span><span class="flip-card-title">Blind football ball</span><span class="flip-card-hint">Click to flip ↻</span></span>
+                <span><span class="flip-card-title">Weight</span><span class="flip-card-hint">Click to flip ↻</span></span>
               </span>
               <span class="flip-card-back">
-                <h3>Audible ball</h3>
-                <ul><li>It contains bells or a sound system.</li><li>Players can track its position and movement by hearing.</li><li>The sound must remain audible while the ball is in play.</li></ul>
+                <h3>Weight</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Blind football (IBSA)</span>
+                    <p>Weight between 510 and 540 grams at the start of the match.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Low-vision futsal (IBSA + FIFA)</span>
+                    <p>*Official FIFA Futsal weight between 400 and 440 grams.</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span><span class="flip-card-number">CARD 03</span><span class="flip-card-icon" aria-hidden="true"></span></span>
+                <span><span class="flip-card-title">Pressure</span><span class="flip-card-hint">Click to flip ↻</span></span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Pressure</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Blind football (IBSA)</span>
+                    <p>Pressure of 0.4 to 0.6 atmospheres at sea level.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Low-vision futsal (IBSA + FIFA)</span>
+                    <p>*Similar pressure, around 0.4 to 0.6 bar, according to FIFA Futsal standards.</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span><span class="flip-card-number">CARD 04</span><span class="flip-card-icon" aria-hidden="true"></span></span>
+                <span><span class="flip-card-title">Sound system</span><span class="flip-card-hint">Click to flip ↻</span></span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Sound system</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Blind football (IBSA)</span>
+                    <p>Carries a mandatory internal sound system (rattle) so it sounds when rolling, bouncing, or spinning.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Low-vision futsal (IBSA + FIFA)</span>
+                    <p>Does not require a sound system (players have residual vision).</p>
+                  </div>
+                </div>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-pressed="false">
+            <span class="flip-card-inner">
+              <span class="flip-card-front">
+                <span><span class="flip-card-number">CARD 05</span><span class="flip-card-icon" aria-hidden="true"></span></span>
+                <span><span class="flip-card-title">Color</span><span class="flip-card-hint">Click to flip ↻</span></span>
+              </span>
+              <span class="flip-card-back">
+                <h3>Color</h3>
+                <div class="compare-block">
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-a">Blind football (IBSA)</span>
+                    <p>The document does not require a specific contrasting color.</p>
+                  </div>
+                  <div class="compare-item">
+                    <span class="compare-label compare-label-b">Low-vision futsal (IBSA + FIFA)</span>
+                    <p>May be a color that clearly contrasts with the field and lines.</p>
+                  </div>
+                </div>
               </span>
             </span>
           </button>

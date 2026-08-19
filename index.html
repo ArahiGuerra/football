@@ -436,17 +436,16 @@ html[lang="en"] .es { display:none !important; }
     <div class="welcome-screen" id="welcomeScreen">
       <div class="welcome-icon"></div>
       <h1 class="welcome-heading">
-        <span class="es">¡Bienvenido al material didáctico sobre <span>fútbol 5 adaptado</span>!</span>
-        <span class="en">Welcome to the teaching material about <span>Football 5-a-side</span>!</span>
+        <span class="es">¡Bienvenido al material didáctico sobre <span>fútbol adaptado</span>!</span>
+        <span class="en">Welcome to the teaching material about <span>adapted Football</span>!</span>
       </h1>
       <p class="welcome-body">
         <span class="es">Selecciona un tema en el panel izquierdo para empezar a explorar el material.</span>
         <span class="en">Select a topic in the left panel to start exploring the material.</span>
       </p>
-      <!-- <button class="btn-start" id="btnStart">
-        <span class="es">Empezar por el módulo 1 →</span>
-        <span class="en">Start with module 1 →</span>
-      </button> -->
+      <p><span class="es">Referencias: <br>Football, I. B. (2026). Laws of the game 2026 - 2029 (International Blind Sports Federation, Ed.). <br> Football, I. B. (2024). Partially Sighted Futsal Laws of the Game (International Blind Sports Federation, Ed.). </span>
+      <span class="en">References: <br>Football, I. B. (2026). Laws of the game 2026 - 2029 (International Blind Sports Federation, Ed.). <br> Football, I. B. (2024). Partially Sighted Futsal Laws of the Game (International Blind Sports Federation, Ed.). </span></p>
+      
     </div>
 
     <div id="panelContainer"></div>
@@ -1860,7 +1859,6 @@ modules.forEach(mod => {
   li.addEventListener('click', () => openModule(mod.id));
   list.appendChild(li);
 
-  /* Panel — both language content blocks in DOM */
   const prevId = mod.id - 1;
   const nextId = mod.id + 1;
   const hasPrev = prevId >= 1;
